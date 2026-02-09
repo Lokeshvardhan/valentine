@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Be My Valentine 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+
+      /* Lovey Dovey Gradient */
+      background: linear-gradient(135deg, #ff4d6d, #ffb3c6, #ff85a2);
+      background-size: 300% 300%;
+      animation: gradientMove 6s infinite alternate;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: left; }
+      100% { background-position: right; }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.25);
+      padding: 50px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255, 0, 100, 0.4);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+      width: 500px;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: white;
+      text-shadow: 0 0 15px pink;
+      margin-bottom: 30px;
+    }
+
+    button {
+      border: none;
+      padding: 15px 35px;
+      font-size: 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+      transition: 0.3s ease;
+    }
+
+    #yesBtn {
+      background: #ff165d;
+      color: white;
+      box-shadow: 0 0 15px rgba(255, 0, 90, 0.7);
+    }
+
+    #noBtn {
+      background: white;
+      color: #ff165d;
+      font-weight: bold;
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    img {
+      margin-top: 20px;
+      width: 250px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px pink;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1 id="question">Will you be my Valentine? 💖</h1>
+
+    <button id="yesBtn" onclick="yesClicked()">Yes 💘</button>
+    <button id="noBtn" onclick="noClicked()">No 💔</button>
+  </div>
+
+  <script>
+    let noCount = 0;
+
+    // 💌 More Cute Questions
+    const questions = [
+      "Are you sure? 🥺",
+      "Think again... 💗",
+      "But I made this just for you 😭",
+      "Come onnn say yes 💘",
+      "You can’t break my heart 💔",
+      "I’ll buy you chocolates 🍫",
+      "What if I give you flowers 🌹",
+      "Imagine how cute we’d be 🥰",
+      "Don’t do this to me 😩",
+      "You’re my favorite person 💖",
+      "I’m literally begging now 😭",
+      "Okay… I’ll stop asking… SIKE 😏",
+      "Say yes or I’ll cry forever 😢",
+      "Look at that YES button, it loves you 😍",
+      "You know you want to click yes 💘",
+      "Just say yes alreadyyyy 😭💞",
+      "This is true love okay 🫶",
+      "Final chance... pretty please? 🥺"
+    ];
+
+    function noClicked() {
+      noCount++;
+
+      // Change Question Text
+      const questionText = document.getElementById("question");
+      questionText.innerText =
+        questions[Math.min(noCount - 1, questions.length - 1)];
+
+      // YES Button Gets Bigger
+      const yesBtn = document.getElementById("yesBtn");
+      let currentSize = 20 + noCount * 8;
+
+      yesBtn.style.fontSize = currentSize + "px";
+      yesBtn.style.padding =
+        (15 + noCount * 4) + "px " + (35 + noCount * 7) + "px";
+    }
+
+    function yesClicked() {
+      document.body.innerHTML = `
+        <div style="
+          text-align:center;
+          color:white;
+          font-family:Poppins;
+        ">
+          <h1 style="
+            font-size:70px;
+            text-shadow:0 0 20px pink;
+          ">
+            YAYYY!! 💖💖💖
+          </h1>
+
+          <p style="font-size:28px;">
+            You just made me the happiest person ever 😭💘
+          </p>
+
+          <!-- 💕 Image After Yes -->
+          <img src="./Us.jpeg" alt="Love Teddy" />
+
+          <p style="font-size:22px; margin-top:20px;">
+            You will always be my Valentine 🥰🌹
+          </p>
+        </div>
+      `;
+    }
+
+    // Floating Hearts Animation
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 25 + 15 + "px";
+      heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 250);
+  </script>
+
+</body>
+</html>
