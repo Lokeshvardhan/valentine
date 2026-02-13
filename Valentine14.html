@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine Week Memories 💖</title>
+
+  <!-- Google Fonts + Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
+      border-radius: 10px;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 60px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background Overlay */
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.15);
+      z-index: 1;
+    }
+
+    /* Themes */
+    #rose { background: linear-gradient(145deg, #ff0844, #ff4d6d, #ff9a9e); }
+    #propose { background: linear-gradient(145deg, #ff758c, #ff7eb3, #fbc2eb); }
+    #chocolate { background: linear-gradient(145deg, #8B4513, #D2691E, #DEB887); }
+    #teddy { background: linear-gradient(145deg, #FFA07A, #FA8072, #E9967A); }
+    #hug { background: linear-gradient(145deg, #98FB98, #90EE90, #32CD32); }
+    #kiss { background: linear-gradient(145deg, #FF69B4, #FF1493, #DB7093); }
+    #valentine { background: linear-gradient(145deg, #FF0000, #DC143C, #B22222); }
+
+    /* Floating Hearts */
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.3;
+      animation: float 6s infinite;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh); opacity: 0; }
+      20% { opacity: 0.7; }
+      to { transform: translateY(-20vh); opacity: 0; }
+    }
+
+    /* Content Fade In */
+    .content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 1s ease;
+    }
+
+    .content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-family: "Dancing Script", cursive;
+      font-size: clamp(3rem, 8vw, 5rem);
+      margin-bottom: 15px;
+      text-shadow: 0 0 25px rgba(255,255,255,0.8);
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin: 20px auto;
+      max-width: 700px;
+      line-height: 1.8;
+      background: rgba(255,255,255,0.15);
+      padding: 15px 25px;
+      border-radius: 50px;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Slideshow */
+    .slideshow-container {
+      margin: 30px auto;
+      width: min(400px, 90%);
+      height: 450px;
+      border-radius: 30px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+
+    .slideshow {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slideshow img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .slideshow img.active {
+      opacity: 1;
+    }
+
+    /* Counter */
+    .image-counter {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      z-index: 3;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Button */
+    .nav-btn {
+      margin-top: 25px;
+      padding: 14px 35px;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(5px);
+      transition: 0.3s;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.45);
+      transform: scale(1.05);
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff4d6d, white);
+      width: 0%;
+      z-index: 1000;
+    }
+
+    /* Nav Dots */
+    .quick-nav {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-dot:hover {
+      background: rgba(255,255,255,0.8);
+      transform: scale(1.2);
+    }
+
+    .nav-dot.active {
+      background: white;
+      transform: scale(1.3);
+      box-shadow: 0 0 15px white;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 1.4rem;
+      font-family: "Dancing Script", cursive;
+      background: rgba(0,0,0,0.2);
+      padding: 15px 30px;
+      border-radius: 50px;
+      backdrop-filter: blur(5px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Navigation Dots -->
+  <div class="quick-nav">
+    <div class="nav-dot active" onclick="scrollToSection('rose')"></div>
+    <div class="nav-dot" onclick="scrollToSection('propose')"></div>
+    <div class="nav-dot" onclick="scrollToSection('chocolate')"></div>
+    <div class="nav-dot" onclick="scrollToSection('teddy')"></div>
+    <div class="nav-dot" onclick="scrollToSection('hug')"></div>
+    <div class="nav-dot" onclick="scrollToSection('kiss')"></div>
+    <div class="nav-dot" onclick="scrollToSection('valentine')"></div>
+  </div>
+
+  <!-- Floating Hearts -->
+  <div class="floating-hearts" id="floatingHearts"></div>
+
+  <!-- Sections -->
+  <section id="rose">
+    <div class="content">
+      <h1><i class="fas fa-spa"></i> Rose Day</h1>
+      <p>The week of love begins with roses, just like my love began with you.</p>
+
+      <div class="slideshow-container">
+        <div class="slideshow" id="slideshowRose">
+          <img src="rose2.jpeg" class="active" alt="Rose 1">
+          <img src="care1.jpeg" alt="Rose 2">
+          <img src="cute.jpeg" alt="Rose 3">
+        </div>
+        <span class="image-counter" id="counterRose">1/3</span>
+      </div>
+
+      <button class="nav-btn" onclick="scrollToSection('propose')">Next 💍</button>
+    </div>
+  </section>
+
+  <section id="propose">
+    <div class="content">
+      <h1><i class="fas fa-ring"></i> Propose Day</h1>
+      <p>If I could propose every day, I still wouldn't get tired of loving you.</p>
+      
+      <div class="slideshow-container">
+        <div class="slideshow" id="slideshowPropose">
+          <img src="propose.jpeg" class="active" alt="Propose 1">
+          <img src="date.jpeg" alt="Propose 2">
+          <img src="fav.jpeg" alt="Propose 3">
+        </div>
+        <span class="image-counter" id="counterPropose">1/3</span>
+      </div>
+      
+      <button class="nav-btn" onclick="scrollToSection('chocolate')">Next 🍫</button>
+    </div>
+  </section>
+
+  <section id="chocolate">
+    <div class="content">
+      <h1><i class="fas fa-candy-cane"></i> Chocolate Day</h1>
+      <p>Life is sweeter with you, like chocolate melting into happiness.</p>
+      
+      <div class="slideshow-container">
+        <div class="slideshow" id="slideshowChocolate">
+          <img src="kiss2.jpeg" class="active" alt="Chocolate 1">
+          <img src="happy.jpeg" alt="Chocolate 2">
+          <img src="date.jpeg" alt="Chocolate 3">
+        </div>
+        <span class="image-counter" id="counterChocolate">1/3</span>
+      </div>
+
+      <button class="nav-btn" onclick="scrollToSection('teddy')">Next 🧸</button>
+    </div>
+  </section>
+
+  <section id="teddy">
+    <div class="content">
+      <h1><i class="fas fa-bear"></i> Teddy Day</h1>
+      <p>Even when I'm not there, my love hugs you like a teddy bear.</p>
+      
+      <div class="slideshow-container">
+        <div class="slideshow" id="slideshowTeddy">
+          <img src="cute2.jpeg" class="active" alt="Teddy 1">
+          <img src="both2.jpeg" alt="Teddy 2">
+          <img src="date.jpeg" alt="Teddy 3">
+        </div>
+        <span class="image-counter" id="counterTeddy">1/3</span>
+      </div>
+
+      <button class="nav-btn" onclick="scrollToSection('hug')">Next 🤗</button>
+    </div>
+  </section>
+
+  <section id="hug">
+    <div class="content">
+      <h1><i class="fas fa-hands-helping"></i> Hug Day</h1>
+      <p>A hug from you feels like home, safe and full of love.</p>
+      
+      <div class="slideshow-container">
+        <div class="slideshow" id="slideshowHug">
+          <img src="happy2.jpeg" class="active" alt="Hug 1">
+          <img src="happy.jpeg" alt="Hug 2">
+          <img src="happy3.jpeg" alt="Hug 3">
+        </div>
+        <span class="image-counter" id="counterHug">1/3</span>
+      </div>
+
+      <button class="nav-btn" onclick="scrollToSection('kiss')">Next 💋</button>
+    </div>
+  </section>
+
+  <section id="kiss">
+    <div class="content">
+      <h1><i class="fas fa-kiss-wink-heart"></i> Kiss Day</h1>
+      <p>A kiss is a promise that love will never fade.</p>
+      
+      <div class="slideshow-container">
+        <div class="slideshow" id="slideshowKiss">
+          <img src="kiss1.jpeg" class="active" alt="Kiss 1">
+          <img src="kiss2.jpeg" alt="Kiss 2">
+          <img src="kiss3.jpeg" alt="Kiss 3">
+        </div>
+        <span class="image-counter" id="counterKiss">1/3</span>
+      </div>
+
+      <button class="nav-btn" onclick="scrollToSection('valentine')">Next ❤️</button>
+    </div>
+  </section>
+
+  <section id="valentine">
+    <div class="content">
+      <h1><i class="fas fa-heart"></i> Valentine's Day</h1>
+      <p>This is not just a week… it's our love story forever 💖</p>
+      
+      <div class="slideshow-container">
+        <div class="slideshow" id="slideshowValentine">
+          <img src="propose.jpeg" class="active" alt="Valentine 1">
+          <img src="fav.jpeg" alt="Valentine 2">
+          <img src="date2.jpeg" alt="Valentine 3">
+        </div>
+        <span class="image-counter" id="counterValentine">1/3</span>
+      </div>
+
+      <footer>Made with ❤️ for someone special</footer>
+      
+      <button class="nav-btn" onclick="scrollToSection('rose')" style="margin-top: 20px;">
+        <i class="fas fa-arrow-left"></i> Start Over
+      </button>
+    </div>
+  </section>
+
+  <script>
+    // Scroll function
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Progress Bar + Active Dot
+    window.addEventListener("scroll", () => {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById("progressBar").style.width = (winScroll / height) * 100 + "%";
+
+      const sections = ["rose", "propose", "chocolate", "teddy", "hug", "kiss", "valentine"];
+      const dots = document.querySelectorAll(".nav-dot");
+
+      let current = "rose";
+      sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section && winScroll >= section.offsetTop - 200) {
+          current = id;
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        if (sections[i] === current) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      });
+    });
+
+    // Floating Hearts
+    function createHearts() {
+      const container = document.getElementById("floatingHearts");
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "%";
+        heart.style.animationDelay = Math.random() * 5 + "s";
+        heart.style.fontSize = Math.random() * 20 + 10 + "px";
+        container.appendChild(heart);
+      }
+    }
+    createHearts();
+
+    // Fade In Sections
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll(".content").forEach(content => {
+      observer.observe(content);
+    });
+
+    // Initialize all slideshows
+    function initSlideshows() {
+      const slideshows = [
+        { id: 'slideshowRose', counterId: 'counterRose' },
+        { id: 'slideshowPropose', counterId: 'counterPropose' },
+        { id: 'slideshowChocolate', counterId: 'counterChocolate' },
+        { id: 'slideshowTeddy', counterId: 'counterTeddy' },
+        { id: 'slideshowHug', counterId: 'counterHug' },
+        { id: 'slideshowKiss', counterId: 'counterKiss' },
+        { id: 'slideshowValentine', counterId: 'counterValentine' }
+      ];
+
+      slideshows.forEach(slideshow => {
+        const slides = document.querySelectorAll(`#${slideshow.id} img`);
+        const counter = document.getElementById(slideshow.counterId);
+        
+        if (slides.length > 0 && counter) {
+          let index = 0;
+          
+          setInterval(() => {
+            slides[index].classList.remove("active");
+            index = (index + 1) % slides.length;
+            slides[index].classList.add("active");
+            counter.textContent = `${index + 1}/${slides.length}`;
+          }, 3000);
+        }
+      });
+    }
+
+    // Start all slideshows
+    initSlideshows();
+  </script>
+
+</body>
+</html>
